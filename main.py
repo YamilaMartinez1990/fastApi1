@@ -14,16 +14,21 @@ app = FastAPI()
 
 blog_db =[]
 
-#Crear Persona con post se crea algo
+#Crear Blog con post se crea algo
 @app.post("/blogs/",response_model =Blog)
 def crear_blog(blogs:Blog):
     blogs.id = len(blog_db) +1
     blog_db.append(blogs)
     return blogs
-#Ver persona por id
+#Ver Blog por id
 @app.get("/blogs{blogs_id}",response_model =Blog)
 def obtener_blogs(blogs_id:int):
     for blogs in blog_db:
         if blogs.id == blogs_id:
             return blogs
         raise HTTPexeption(status_code=404, detail="Blog no encontrado")
+#Listar mensajes asi nos trae todo
+@app.get("/blogs/",response_model =list[Blog])
+def listar_persona():
+    return blog_db
+
